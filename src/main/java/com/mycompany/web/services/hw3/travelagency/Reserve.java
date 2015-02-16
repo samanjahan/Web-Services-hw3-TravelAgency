@@ -36,9 +36,8 @@ public class Reserve implements Serializable {
     @Basic(optional = false)
     @Column(name = "idreserve")
     private Long idreserve;
-    @JoinColumn(name = "userName", referencedColumnName = "name")
-    @ManyToOne
-    private Person userName;
+
+    
     @JoinColumn(name = "tripID", referencedColumnName = "idTrip")
     @ManyToOne
     private Trip tripID;
@@ -56,14 +55,6 @@ public class Reserve implements Serializable {
 
     public void setIdreserve(Long idreserve) {
         this.idreserve = idreserve;
-    }
-
-    public Person getUserName() {
-        return userName;
-    }
-
-    public void setUserName(Person userName) {
-        this.userName = userName;
     }
 
     public Trip getTripID() {

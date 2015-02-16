@@ -3,11 +3,9 @@
   <persistence-unit name="com.mycompany_Web-Services-hw3-TravelAgency_war_1.0-SNAPSHOTPU" transaction-type="JTA">
     <jta-data-source>jdbc/hw3_Travel</jta-data-source>
     <class>com.mycompany.web.services.hw3.travelagency.Trip</class>
-    <class>com.mycompany.web.services.hw3.travelagency.Person</class>
     <class>com.mycompany.web.services.hw3.travelagency.Reserve</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
-      <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>
 </persistence>

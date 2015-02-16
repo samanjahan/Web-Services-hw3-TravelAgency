@@ -5,6 +5,8 @@
  */
 package service;
 
+import authenticate.Authenticate;
+import bank.BankServices;
 import com.mycompany.web.services.hw3.travelagency.Trip;
 import flight.FlightServices;
 import java.util.List;
@@ -27,7 +29,6 @@ import java.util.StringTokenizer;
 import java.util.*;
 import org.eclipse.persistence.jpa.rs.exceptions.MalformedURLExceptionMapper;
 import view.MakeTrip;
-import view.PersonLog;
 
 /**
  *
@@ -106,9 +107,12 @@ public class TripFacadeREST extends AbstractFacade<Trip> {
     @Produces({MediaType.APPLICATION_JSON})
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public String findtrip(@PathParam("username") String username,@PathParam("departure") String departure, @PathParam("destination") String destination ) {
-        PersonLog personlog = new PersonLog();
-        personlog.check(username);
-        
+        authenticate.Authenticate authenticate = new Authenticate();
+        String re = authenticate.isloggedin(username);
+        if(!(re.equals("true"))){
+            return "sorry!";
+        }
+
         FlightServices flightServices = new FlightServices();
         String result = flightServices.findAllFlights(departure,destination);
         result = result.subSequence(2, result.length()-2).toString();
@@ -172,9 +176,28 @@ public class TripFacadeREST extends AbstractFacade<Trip> {
     return makeTripList.toString() ;
 }
 
-@Override
+    @Override
         protected EntityManager getEntityManager() {
         return em;
     }
+        
+    @GET
+    @Path("/pay/name={name}&creditCard={creditCard}&amount={amount}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public String pay(@PathParam("name") String name,@PathParam("creditCard")String creditCard,@PathParam("amount")String amount){
+       bank.BankServices bankServices = new BankServices();
+       String resultPay =  bankServices.pay(name, creditCard, amount);
+       return resultPay.toString();
+    }
+    
+    @GET
+    @Path("/loggedin/username={username}&password={password}")
+    @Consumes({MediaType.APPLICATION_JSON})
+    public String loggedIn(@PathParam("username")String username, @PathParam("password")String password){
+            Authenticate au = new Authenticate();
+           String rs =  au.loggedIn(username, password);
+           return rs;
+    }
+    
     
 }
