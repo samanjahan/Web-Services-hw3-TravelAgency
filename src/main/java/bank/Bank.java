@@ -13,7 +13,7 @@ import javax.ws.rs.client.WebTarget;
  * Jersey REST client generated for REST resource:BankFacadeREST [/bank]<br>
  * USAGE:
  * <pre>
- *        BankServices client = new BankServices();
+ *        Bank client = new Bank();
  *        Object response = client.XXX(...);
  *        // do whatever with response
  *        client.close();
@@ -21,12 +21,12 @@ import javax.ws.rs.client.WebTarget;
  *
  * @author syst3m
  */
-public class BankServices {
+public class Bank {
     private WebTarget webTarget;
     private Client client;
-    private static final String BASE_URI = "http://localhost:8080/Web-Services-hw3-Bank/rest";
+    private static final String BASE_URI = "http://localhost:8080/Web-Services-hw3-Bank-Maven/rest";
 
-    public BankServices() {
+    public Bank() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
         webTarget = client.target(BASE_URI).path("bank");
     }
@@ -38,7 +38,7 @@ public class BankServices {
     public String countREST() throws ClientErrorException {
         WebTarget resource = webTarget;
         resource = resource.path("count");
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(String.class);
+        return resource.request(javax.ws.rs.core.MediaType.TEXT_PLAIN).get(String.class);
     }
 
     public <T> T findAll(Class<T> responseType) throws ClientErrorException {
