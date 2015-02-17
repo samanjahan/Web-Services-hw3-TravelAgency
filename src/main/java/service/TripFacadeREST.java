@@ -6,7 +6,7 @@
 package service;
 
 import authenticate.Authenticate;
-import bank.BankServices;
+import bank.Bank;
 import com.mycompany.web.services.hw3.travelagency.Trip;
 import flight.FlightServices;
 import java.util.List;
@@ -44,32 +44,12 @@ public class TripFacadeREST extends AbstractFacade<Trip> {
     public TripFacadeREST() {
         super(Trip.class);
     }
-
-    @POST
-    @Override
-    @Consumes({MediaType.APPLICATION_JSON})
-    public void create(Trip entity) {
-        super.create(entity);
-    }
     
     @GET
     @Path("/reserve/tripid={tripid}")
     @Produces({MediaType.APPLICATION_JSON})
     public String reserve(@PathParam("tripid") int tripid){
         return "true";
-    }
-
-    @PUT
-    @Path("{id}")
-    @Consumes({MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Long id, Trip entity) {
-        super.edit(entity);
-    }
-
-    @DELETE
-    @Path("{id}")
-    public void remove(@PathParam("id") Long id) {
-        super.remove(super.find(id));
     }
 
     @GET
@@ -84,13 +64,6 @@ public class TripFacadeREST extends AbstractFacade<Trip> {
     @Produces({MediaType.APPLICATION_JSON})
     public List<Trip> findAll() {
         return super.findAll();
-    }
-
-    @GET
-    @Path("{from}/{to}")
-    @Produces({MediaType.APPLICATION_JSON})
-    public List<Trip> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return super.findRange(new int[]{from, to});
     }
 
     @GET
@@ -185,7 +158,7 @@ public class TripFacadeREST extends AbstractFacade<Trip> {
     @Path("/pay/name={name}&creditCard={creditCard}&amount={amount}")
     @Produces({MediaType.APPLICATION_JSON})
     public String pay(@PathParam("name") String name,@PathParam("creditCard")String creditCard,@PathParam("amount")String amount){
-       bank.BankServices bankServices = new BankServices();
+       bank.Bank bankServices = new Bank();
        String resultPay =  bankServices.pay(name, creditCard, amount);
        return resultPay.toString();
     }
@@ -197,7 +170,5 @@ public class TripFacadeREST extends AbstractFacade<Trip> {
             Authenticate au = new Authenticate();
            String rs =  au.loggedIn(username, password);
            return rs;
-    }
-    
-    
+    }   
 }
